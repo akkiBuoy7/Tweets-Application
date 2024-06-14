@@ -21,64 +21,68 @@ import androidx.navigation.navArgument
 import com.example.tweetsapplication.routes.AppRoutes
 import com.example.tweetsapplication.routes.NavArgs
 import com.example.tweetsapplication.screens.CategoryScreen
-import com.example.tweetsapplication.screens.DetailScreen
+import com.example.tweetsapplication.screens.TweetListingScreen
 import com.example.tweetsapplication.ui.theme.TweetsApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @OptIn(DelicateCoroutinesApi::class, ExperimentalMaterial3Api::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            TweetsApplicationTheme {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = {
-                                Text(text = "Tweetsy")
-                            }, colors = TopAppBarColors(
-                                containerColor = Color.Black, titleContentColor = Color.White,
-                                navigationIconContentColor = Color.Transparent, scrolledContainerColor = Color.Transparent,
-                                actionIconContentColor = Color.Transparent
-                            )
-                        )
-                    }
-                ) {
-                    Box(Modifier.padding(it)) {
-                        App()
-                    }
-                }
+	@OptIn(ExperimentalMaterial3Api::class)
+	override fun onCreate(savedInstanceState : Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContent {
+			TweetsApplicationTheme {
+				Scaffold(
+					topBar = {
+						TopAppBar(
+							title = {
+								Text(text = "Tweetsy")
+							} , colors = TopAppBarColors(
+								containerColor = Color.Black ,
+								titleContentColor = Color.White ,
+								navigationIconContentColor = Color.Transparent ,
+								scrolledContainerColor = Color.Transparent ,
+								actionIconContentColor = Color.Transparent
+							)
+						)
+					}
+				) {
+					Box(Modifier.padding(it)) {
+						App()
+					}
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 }
 
 @Composable
 fun App() {
-    val navController = rememberNavController()
-    AppRoutes
+	val navController = rememberNavController()
+	AppRoutes
 
-    NavHost(navController = navController, startDestination = AppRoutes.CATEGORY_SCREEN) {
-        composable(route = AppRoutes.CATEGORY_SCREEN) {
-            CategoryScreen {
-                navController.navigate("${AppRoutes.TWEETS_SCREEN}/${it}")
-            }
-        }
-        composable(route = "${AppRoutes.TWEETS_SCREEN}/{${NavArgs.NAV_CATEGORY}}",
-            arguments = listOf(
-                navArgument(NavArgs.NAV_CATEGORY) {
-                    type = NavType.StringType
-                }
+	NavHost(
+		navController = navController ,
+		startDestination = AppRoutes.CATEGORY_SCREEN
+	) {
+		composable(route = AppRoutes.CATEGORY_SCREEN) {
+			CategoryScreen {
+				navController.navigate("${AppRoutes.TWEETS_SCREEN}/${it}")
+			}
+		}
+		composable(route = "${AppRoutes.TWEETS_SCREEN}/{${NavArgs.NAV_CATEGORY}}" ,
+		           arguments = listOf(
+			           navArgument(NavArgs.NAV_CATEGORY) {
+				           type = NavType.StringType
+			           }
 
-            )
-        ) {
-            DetailScreen()
-        }
+		           )
+		) {
+			TweetListingScreen()
+		}
 
-    }
+	}
 
 }

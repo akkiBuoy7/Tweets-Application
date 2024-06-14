@@ -11,6 +11,7 @@ class AppRoutes {
 
 class NavArgs {
     companion object {
+
         const val NAV_CATEGORY = "nav_category"
         const val NAV_ANDROID = "android"
     }

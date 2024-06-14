@@ -13,16 +13,16 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    @Singleton
-    @Provides
-    fun providesRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl("https://api.jsonbin.io/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-    }
+	@Singleton
+	@Provides
+	fun providesRetrofit() : Retrofit {
+		return Retrofit.Builder().baseUrl("https://api.jsonbin.io/")
+			.addConverterFactory(GsonConverterFactory.create()).build()
+	}
 
-    @Singleton
-    @Provides
-    fun providesTweetsyApi(retrofit: Retrofit): TweetsyApi {
-        return retrofit.create(TweetsyApi::class.java)
-    }
+	@Singleton
+	@Provides
+	fun providesTweetsyApi(retrofit : Retrofit) : TweetsyApi {
+		return retrofit.create(TweetsyApi::class.java)
+	}
 }

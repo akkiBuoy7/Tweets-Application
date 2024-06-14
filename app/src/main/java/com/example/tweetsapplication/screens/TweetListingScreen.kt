@@ -21,50 +21,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tweetsapplication.models.TweetListItem
-import com.example.tweetsapplication.viewModels.DetailViewModel
-
+import com.example.tweetsapplication.viewModels.TweetListingViewModel
 
 @Composable
-fun DetailScreen() {
-    val detailViewModel: DetailViewModel = hiltViewModel()
-    val tweets: State<List<TweetListItem>> = detailViewModel.tweets.collectAsState()
+fun TweetListingScreen() {
+	val tweetListingViewModel : TweetListingViewModel = hiltViewModel()
+	val tweets : State<List<TweetListItem>> = tweetListingViewModel.tweets.collectAsState()
 
-    if (tweets.value.isEmpty()) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator(
-                color = Color.White,
-                strokeWidth = 2.dp,
-                modifier = Modifier.size(30.dp)
-            )
-        }
+	if (tweets.value.isEmpty()) {
+		Box(
+			modifier = Modifier.fillMaxSize() ,
+			contentAlignment = Alignment.Center
+		) {
+			CircularProgressIndicator(
+				color = Color.White ,
+				strokeWidth = 2.dp ,
+				modifier = Modifier.size(30.dp)
+			)
+		}
 
-    } else {
-        LazyColumn {
-            items(tweets.value) {
+	} else {
+		LazyColumn {
+			items(tweets.value) {
 
-                DetailItem(tweet = it.tweet)
-            }
-        }
+				DetailItem(tweet = it.tweet)
+			}
+		}
 
-    }
+	}
 
 }
 
 @Composable
-fun DetailItem(tweet: String) {
-    Card(
-        modifier = Modifier
+fun DetailItem(tweet : String) {
+	Card(
+		modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        border = BorderStroke(1.dp, Color(0xFFCCCCCC))
-    ) {
+            .padding(16.dp) ,
+		border = BorderStroke(1.dp , Color(0xFFCCCCCC))
+	) {
 
-        Text(
-            text = tweet,
-            modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.bodySmall
-        )
-    }
+		Text(
+			text = tweet ,
+			modifier = Modifier.padding(16.dp) ,
+			style = MaterialTheme.typography.bodySmall
+		)
+	}
 }

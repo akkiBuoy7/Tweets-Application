@@ -11,20 +11,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 // Inject repository within constructor
 @HiltViewModel
-class DetailViewModel @Inject constructor(
-    val repository: TweetRepository,
-    val savedStateHandle: SavedStateHandle
+class TweetListingViewModel @Inject constructor(
+	private val repository : TweetRepository ,
+	savedStateHandle : SavedStateHandle
 ) : ViewModel() {
-    val tweets: StateFlow<List<TweetListItem>>
-        get() = repository.tweets
 
-    init {
-        val category = savedStateHandle.get<String>(NavArgs.NAV_CATEGORY) ?: NavArgs.NAV_ANDROID
-        viewModelScope.launch() {
-            repository.getTweets(category)
-        }
-    }
+	val tweets : StateFlow<List<TweetListItem>>
+		get() = repository.tweets
+
+	init {
+		val category =
+			savedStateHandle.get<String>(NavArgs.NAV_CATEGORY) ?: NavArgs.NAV_ANDROID
+		viewModelScope.launch {
+			repository.getTweets(category)
+		}
+	}
 }
