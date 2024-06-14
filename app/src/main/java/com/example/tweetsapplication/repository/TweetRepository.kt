@@ -20,7 +20,7 @@ class TweetRepository @Inject constructor(private val tweetsyApi: TweetsyApi) {
         get() = _categories
 
     suspend fun getTweets(category: String) {
-        val result = tweetsyApi.getTweets("tweets[?(@.category==\"android\")]") // call API
+        val result = tweetsyApi.getTweets("tweets[?(@.category==\"$category\")]") // call API
         if (result.isSuccessful && result.body() != null) {
             _tweets.emit(result.body()!!) // Emit Mutable state flow
         }
