@@ -1,6 +1,7 @@
 package com.example.tweetsapplication.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,13 +21,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.tweetsapplication.models.TweetListItem
+import com.example.tweetsapplication.routes.AppRoutes
 import com.example.tweetsapplication.viewModels.TweetListingViewModel
 
 @Composable
-fun TweetListingScreen() {
+fun TweetListingScreen(
+	navController : NavHostController ,
+) {
 	val tweetListingViewModel : TweetListingViewModel = hiltViewModel()
-	val tweets : State<List<TweetListItem>> = tweetListingViewModel.tweets.collectAsState()
+	val tweets : State<List<TweetListItem>> =
+		tweetListingViewModel.tweets.collectAsState()
 
 	if (tweets.value.isEmpty()) {
 		Box(
@@ -44,7 +50,7 @@ fun TweetListingScreen() {
 		LazyColumn {
 			items(tweets.value) {
 
-				DetailItem(tweet = it.tweet)
+				DetailItem(tweet = it.tweet , navController)
 			}
 		}
 
@@ -53,11 +59,17 @@ fun TweetListingScreen() {
 }
 
 @Composable
-fun DetailItem(tweet : String) {
+fun DetailItem(
+	tweet : String ,
+	navController : NavHostController ,
+) {
 	Card(
 		modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp) ,
+			.fillMaxWidth()
+			.padding(16.dp)
+			.clickable {
+				navController.navigate("${AppRoutes.DETAILS_SCREEN.route}/${tweet}")
+			} ,
 		border = BorderStroke(1.dp , Color(0xFFCCCCCC))
 	) {
 

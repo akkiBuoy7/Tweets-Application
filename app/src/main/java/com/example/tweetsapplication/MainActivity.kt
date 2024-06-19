@@ -21,6 +21,7 @@ import androidx.navigation.navArgument
 import com.example.tweetsapplication.routes.AppRoutes
 import com.example.tweetsapplication.routes.NavArgs
 import com.example.tweetsapplication.screens.CategoryScreen
+import com.example.tweetsapplication.screens.DetailsScreen
 import com.example.tweetsapplication.screens.TweetListingScreen
 import com.example.tweetsapplication.ui.theme.TweetsApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,31 +59,4 @@ class MainActivity : ComponentActivity() {
 	}
 }
 
-@Composable
-fun App() {
-	val navController = rememberNavController()
-	AppRoutes
 
-	NavHost(
-		navController = navController ,
-		startDestination = AppRoutes.CATEGORY_SCREEN
-	) {
-		composable(route = AppRoutes.CATEGORY_SCREEN) {
-			CategoryScreen {
-				navController.navigate("${AppRoutes.TWEETS_SCREEN}/${it}")
-			}
-		}
-		composable(route = "${AppRoutes.TWEETS_SCREEN}/{${NavArgs.NAV_CATEGORY}}" ,
-		           arguments = listOf(
-			           navArgument(NavArgs.NAV_CATEGORY) {
-				           type = NavType.StringType
-			           }
-
-		           )
-		) {
-			TweetListingScreen()
-		}
-
-	}
-
-}
